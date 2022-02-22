@@ -152,6 +152,7 @@ alias pg="sudo openvpn /home/hhhharshil/VPN/pg.ovpn"
 alias thm="sudo openvpn /home/hhhharshil/VPN/thm.ovpn"
 alias htb="sudo openvpn /home/hhhharshil/VPN/htb.ovpn"
 alias xct="/home/hhhharshil/Shell/xc/xc"
+alias shellz="/home/hhhharshil/git/HackTheBox/helperScripts/shellz"
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
