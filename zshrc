@@ -157,6 +157,13 @@ alias thm="sudo openvpn /home/hhhharshil/VPN/thm.ovpn"
 alias htb="sudo openvpn /home/hhhharshil/VPN/htb.ovpn"
 alias xct="/home/hhhharshil/Shell/xc/xc"
 alias shellz="/home/hhhharshil/git/HackTheBox/helperScripts/shellz"
+#networking
+alias public="curl wtfismyip.com/text"
+alias http="python3 -m http.server 1234"
+#web
+
+alias urlencode='python -c "import urllib; print(urllib.parse.quote_plus(sys.argv[1]));"'
+
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
@@ -269,4 +276,39 @@ function extract() {
   else
     echo "'$1' is not a valid file"
   fi
+}
+
+function curl_time() {
+  curl -so /dev/null -w "\
+   namelookup:  %{time_namelookup}s\n\
+      connect:  %{time_connect}s\n\
+   appconnect:  %{time_appconnect}s\n\
+  pretransfer:  %{time_pretransfer}s\n\
+     redirect:  %{time_redirect}s\n\
+starttransfer:  %{time_starttransfer}s\n\
+-------------------------\n\
+        total:  %{time_total}s\n" "$@"
+}
+
+function server() {
+  local port="${1:-8000}"
+  sleep 1 && open "http://localhost:${port}/" &
+  # Set the default Content-Type to `text/plain` instead of `application/octet-stream`
+  # And serve everything as UTF-8 (although not technically correct, this doesn’t break anything for binary files)
+  python -c $'import SimpleHTTPServer;\nmap = SimpleHTTPServer.SimpleHTTPRequestHandler.extensions_map;\nmap[""] = "text/plain";\nfor key, value in map.items():\n\tmap[key] = value + ";charset=UTF-8";\nSimpleHTTPServer.test();' "$port"
+}
+
+function commonffuf() {
+  if [[ -z $1 ]]; then
+    echo "usage: commonffuf http://scan.me.sh/ {options between quotes}"
+    return
+  fi
+
+  if [[ ! "$1" =~ ^.*\/$ ]]; then
+    target="$1/"
+  else
+    target="$1"
+  fi
+
+  ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -r -u "$target"FUZZ $2
 }
