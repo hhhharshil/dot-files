@@ -312,3 +312,44 @@ function commonffuf() {
 
   ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -r -u "$target"FUZZ $2
 }
+
+function lazypush() {
+  if [[ -z $1 ]]; then
+    echo "usage: lazypush message"
+    return
+  fi
+
+  git add . && git commit -m "$1" && git push
+}
+
+
+function httpgrep() {
+  if [[ -z $1 || -z $2 ]]; then
+    echo "usage: httpgrep domains.txt word(s)"
+    return
+  fi
+
+  cat $1 | httpx -title -status-code -fr -ms "$2"
+}
+
+function alivehosts() {
+  if [[ -z $1 ]]; then
+    echo "usage: alivehosts domains.txt"
+    return
+  fi
+
+  cat $1 | httpx -timeout 5
+}
+
+function filtertargets() {
+  if [[ -z $1 ]]; then
+    echo "usage: filtertargets domains.txt"
+    return
+  fi
+
+  cat $1 | httpx -title -status-code -fr -fe "Origin DNS error|AccessDenied|NoSuchKey|Access Denied|Your Atlassian Cloud site is currently unavailable|Log in with Atlassian account|The request could not be satisfied"| egrep -iv "microsoftonline|google.com"
+}
+
+function lsfunctions() {
+  cat "$HOME"/.bashrc | egrep -i "function" | grep -iv "#" | cut -d "(" -f 1
+}
