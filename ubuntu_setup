@@ -1,0 +1,21 @@
+# Install oh-my-zsh:
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+#Install Spaceship
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+
+#Install Plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+#Change default shell
+chsh -s $(which zsh)
+
+#Download tmux.conf
+https://raw.githubusercontent.com/hhhharshil/dot-files/main/tmux.conf
+
+#Konsole Drac Setup
+https://github.com/dracula/konsole/archive/master.zip
+Konsole > Settings > Edit Current Profile… > Appearance tab
